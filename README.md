@@ -10,10 +10,92 @@
 - React 
 - Phaser.js 
 
-# TODO: Serializers
-# Add API ViewSets
-# Wire up the urls
-# pip install djangorestframework
+ 
+# Setup
+COMPLETE Serializers
+COMPLETE Add API ViewSets
+COMPLETE Wire up the urls
+COMPLETE pip install djangorestframework
+COMPLETE Make migrations
+COMPLETE Test full CRUD capability
+---------------------
+COMPLETE Backend is set up with models
+COMPLETE Their RESTful API endpoints are live
+
+
+# Custom API logic
+COMPLETE - Assigning guests to rooms
+- Ex: Mark a guest as registered and assign them to a room 
+Ghost randomization
+- Create logic to randomly assign ghosts to rooms on a timer
+
+## APIs
+GET /api/requests/ – unregistered guests
+POST /api/guests/ – register a new guest
+PUT /api/guests/{id}/assign/ – assign to a room
+GET /api/guests/ – all registered guests
+GET /api/ghosts/ – current ghost assignments
+GET /api/rooms/ – room states (guest/ghost info)
+GET /api/profit/ – current hotel profit
+
+
+
+
+
+
+
+
+---------------------
+# Integrate with React Frontend
+- Use Phase.js for rendering the hotel floor plan
+- Make API calls to Django backend to create, update or fetch room/guest/ghost data
+- Make forms for guest registration and room assignment
+- Make buttons for "Accept Request" and "Assign to Room", etc.
+- Phaser map tiles update in real time
+
+
+
+
+
+
+
+
+
+---------------------
+# Timers and Automation
+Guest timer:
+- use background task system?
+Ghost randomizer:
+- Ghosts randomly shuffle between rooms every X minutes
+- Automated background process that periodically updates ghost positions
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------
+# User Experience
+Visual updates
+- Reflect room changes dynamically
+- Profit calculation
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------
 
 # TODO: implement ghost randomization logic
 Celery? Django-Q?
@@ -49,11 +131,3 @@ timer starts for stay_duration (react hooks)
 when timer ends, guest leaves and room empties
 ghosts change rooms on a timer
 
-# APIs
-GET /api/requests/ – unregistered guests
-POST /api/guests/ – register a new guest
-PUT /api/guests/{id}/assign/ – assign to a room
-GET /api/guests/ – all registered guests
-GET /api/ghosts/ – current ghost assignments
-GET /api/rooms/ – room states (guest/ghost info)
-GET /api/profit/ – current hotel profit
