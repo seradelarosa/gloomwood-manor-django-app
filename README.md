@@ -11,6 +11,9 @@
 - Phaser.js 
 
 # TODO: Serializers
+# Add API ViewSets
+# Wire up the urls
+# pip install djangorestframework
 
 # TODO: implement ghost randomization logic
 Celery? Django-Q?
