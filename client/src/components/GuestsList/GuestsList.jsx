@@ -1,35 +1,28 @@
+import React, { useState, useEffect } from "react";
+import assignRoom from '../../services/assignRoom';
+
 const GuestsList = ({ guests }) => {
-  const [guests, setGuests] = useState([]);
-  const [selectedGuestId, setSelectedGuestId] = useState(null);
-  const [selectedRoomNumber, setSelectedRoomNumber] = useState(null);
+  
+    const handleAssignRoom = async () => {
+      if (!selectedGuestId || !selectedRoomNumber) {
+        alert("Please select a guest and a room.");
+        return;
+      }
+  
+      try {
+        const data = await assignRoom(selectedGuestId, selectedRoomNumber);
+        console.log("Guest assigned:", data);
+        alert("Guest successfully assigned to room!");
+      } catch (error) {
+        console.error("Error assigning guest:", error);
+        alert("Failed to assign guest to room.");
+      }
+    };
 
-  useEffect(() => {
-    // Fetch the list of guests from the API (assuming you have this endpoint)
-    fetch("/api/guests/")
-      .then((response) => response.json())
-      .then((data) => setGuests(data))
-      .catch((error) => console.error("Error fetching guests:", error));
-  }, []);
-
-  const handleAssignRoom = async () => {
-    if (!selectedGuestId || !selectedRoomNumber) {
-      alert("Please select a guest and a room.");
-      return;
-    }
-
-    try {
-      const data = await assignRoom(selectedGuestId, selectedRoomNumber);
-      console.log("Guest assigned:", data);
-      alert("Guest successfully assigned to room!");
-    } catch (error) {
-      console.error("Error assigning guest:", error);
-      alert("Failed to assign guest to room.");
-    }
-  };
   return (
     <>
       <h2 className="section-title">Registered Guests</h2>
-      <table className="guests-table">
+      <table>
         <thead>
           <tr>
             <th>Full Name</th>

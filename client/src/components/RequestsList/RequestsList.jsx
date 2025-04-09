@@ -1,4 +1,5 @@
-const RequestsList = ({ guests, onRegister }) => {
+// default guests to empty array so map function always works
+const RequestsList = ({ guests = [], onRegister }) => {
     return (
         <>
             <h2 className="section-title">Unregistered Guests</h2>
@@ -12,18 +13,24 @@ const RequestsList = ({ guests, onRegister }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {guests.map(guest => (
-                        <tr key={guest.id}>
-                            <td>{guest.full_name}</td>
-                            <td>{guest.stay_duration} minutes</td>
-                            <td>{guest.preferences}</td>
-                            <td>
-                                <button onClick={() => onRegister(guest.id)}>
-                                    Register
-                                </button>
-                            </td>
+                    {guests.length === 0 ? (
+                        <tr>
+                            <td>No unregistered guests found.</td>
                         </tr>
-                    ))}
+                    ) : (
+                        guests.map(guest => (
+                            <tr key={guest.id}>
+                                <td>{guest.full_name}</td>
+                                <td>{guest.stay_duration} minutes</td>
+                                <td>{guest.preferences}</td>
+                                <td>
+                                    <button onClick={() => onRegister(guest.id)}>
+                                        Register
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
         </>

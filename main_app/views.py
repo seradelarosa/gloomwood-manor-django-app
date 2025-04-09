@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework import status
 from .models import Room, Guest, Ghost
 from .serializers import RoomSerializer, GuestSerializer, GhostSerializer
@@ -26,15 +27,19 @@ class GhostViewSet(viewsets.ModelViewSet):
     serializer_class = GhostSerializer
 
 
-# define unregistered guests (booking requests)
-def unregistered_guests(request):
-    guests = Guest.objects.filter(registered=False)
-    return render(request, 'unregistered_guests.html', {'guests': guests})
+# create an API view for registered guests
+class GuestListView(APIView):
+    def get(self, request):
+        guests = Guest.objects.filter(registered=True)
+        serializer = GuestSerializer(guests, many=True)
+        return Response(serializer.data)
 
-# define registered guests
-def guest_list(request):
-    guests = Guest.objects.filter(registered=True)
-    return render(request, 'guest_list.html', {'guests': guests})
+# create API view for unregistered guests (booking requests)
+class UnregisteredGuestListView(APIView):
+    def get(self, request):
+        guests = Guest.objects.filter(registered=False)
+        serializer = GuestSerializer(guests, many=True)
+        return Response(serializer.data)
 
 # register guest    
 def register_guest(request, guest_id):

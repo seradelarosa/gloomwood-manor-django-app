@@ -2,12 +2,14 @@ const assignRoom = (guest_id, room_number) => {
     return fetch('/api/assign-room/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        guest_id,
-        room_number,
-      }),
+      body: JSON.stringify({ guest_id, room_number }),
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          return Promise.reject(`Failed to assign room: ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then(data => {
         if (data.error) {
           throw new Error(data.error);
@@ -21,4 +23,5 @@ const assignRoom = (guest_id, room_number) => {
   };
   
   export default assignRoom;
+  
   
