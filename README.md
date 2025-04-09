@@ -24,8 +24,10 @@ COMPLETE Their RESTful API endpoints are live
 
 
 # Custom API logic
-COMPLETE - Assigning guests to rooms
-- Ex: Mark a guest as registered and assign them to a room 
+COMPLETE Assign guests to rooms
+COMPLETE Pre-populate database with unregistered guest information (requests)
+Add function to register a guest
+Make check: Guests must be registered as a guest before they can be assigned to a room
 Ghost randomization
 - Create logic to randomly assign ghosts to rooms on a timer
 
