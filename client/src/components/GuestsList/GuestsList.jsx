@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import assignRoom from '../../services/assignRoom';
 
-const GuestsList = ({ guests }) => {
+const GuestsList = ({ guests = [] }) => {
   
-    const handleAssignRoom = async () => {
-      if (!selectedGuestId || !selectedRoomNumber) {
-        alert("Please select a guest and a room.");
-        return;
-      }
+    // const handleAssignRoom = async () => {
+    //   if (!selectedGuestId || !selectedRoomNumber) {
+    //     alert("Please select a guest and a room.");
+    //     return;
+    //   }
   
-      try {
-        const data = await assignRoom(selectedGuestId, selectedRoomNumber);
-        console.log("Guest assigned:", data);
-        alert("Guest successfully assigned to room!");
-      } catch (error) {
-        console.error("Error assigning guest:", error);
-        alert("Failed to assign guest to room.");
-      }
-    };
+    //   try {
+    //     const data = await assignRoom(selectedGuestId, selectedRoomNumber);
+    //     console.log("Guest assigned:", data);
+    //     alert("Guest successfully assigned to room!");
+    //   } catch (error) {
+    //     console.error("Error assigning guest:", error);
+    //     alert("Failed to assign guest to room.");
+    //   }
+    // };
 
   return (
     <>
