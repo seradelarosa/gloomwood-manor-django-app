@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGhosts } from '../../services/ghostShuffle';
+import HotelMap from '../HotelMap/HotelMap';
 
 const Home = ({ guests, rooms }) => {
   const { ghosts, lastShuffleTime } = useGhosts();
@@ -23,8 +24,8 @@ const Home = ({ guests, rooms }) => {
 
   return (
     <div>
-      <h1>Welcome to Gloomwood Manor!</h1>
-      <p>This is the homepage of the hotel simulation game.</p>
+
+      <HotelMap />
 
       <h2>Room Assignments</h2>
       {rooms.length === 0 ? (
@@ -32,7 +33,7 @@ const Home = ({ guests, rooms }) => {
       ) : (
         <div className="room-grid">
           {rooms.map((room) => {
-            // Find the guest and ghost for this room
+            // find the guest and ghost for this room
             const guest = guests.find((guest) => guest.assigned === room.id);
             const ghost = roomAssignments.find((ghost) => ghost.assigned === room.id);
 

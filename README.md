@@ -7,7 +7,6 @@
 - React
 - Vite
 - Figma
-- React 
 - Phaser.js 
 
  
@@ -41,10 +40,9 @@ GET /api/rooms/ – room states (guest/ghost info)
 GET /api/profit/ – current hotel profit
 
 
-
 ---------------------
 # Integrate with React Frontend
-- Use Phase.js for rendering the hotel floor plan
+COMPLETE Use Phase.js for rendering the hotel floor plan
 - Make API calls to Django backend to create, update or fetch room/guest/ghost data
 - Make forms for guest registration and room assignment
 - Make buttons for "Accept Request" and "Assign to Room", etc.
