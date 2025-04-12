@@ -26,10 +26,10 @@ COMPLETE Their RESTful API endpoints are live
 # Custom API logic
 COMPLETE Assign guests to rooms
 COMPLETE Pre-populate database with unregistered guest information (requests)
-Add function to register a guest
-Make check: Guests must be registered as a guest before they can be assigned to a room
-Ghost randomization
-- Create logic to randomly assign ghosts to rooms on a timer
+COMPLETE Add function to register a guest
+COMPLETE Make check: Guests must be registered as a guest before they can be assigned to a room
+COMPLETE Ghost randomization
+COMPLETE Create logic to randomly assign ghosts to rooms on a timer
 
 ## APIs
 GET /api/requests/ – unregistered guests
@@ -42,11 +42,6 @@ GET /api/profit/ – current hotel profit
 
 
 
-
-
-
-
-
 ---------------------
 # Integrate with React Frontend
 - Use Phase.js for rendering the hotel floor plan
@@ -54,13 +49,6 @@ GET /api/profit/ – current hotel profit
 - Make forms for guest registration and room assignment
 - Make buttons for "Accept Request" and "Assign to Room", etc.
 - Phaser map tiles update in real time
-
-
-
-
-
-
-
 
 
 ---------------------
