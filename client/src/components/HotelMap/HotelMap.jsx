@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
 
-const TILE_SIZE = 48;
+const TILE_SIZE = 140;
 const MAP_WIDTH = 3;
 const MAP_HEIGHT = 3;
 const TOTAL_ROOMS = 7;
-const MOBILE_WIDTH = 320;
-const MOBILE_HEIGHT = 200;
+const MOBILE_WIDTH = 430;
+const MOBILE_HEIGHT = 500;
 
 class HotelScene extends Phaser.Scene {
   constructor() {
@@ -136,7 +136,6 @@ const HotelMap = ({ roomAssignments = [] }) => {
       marginBottom: '20px',
       marginTop: '20px',
       borderRadius: '8px',
-      padding: '10px'
     }} />
   );
 };
