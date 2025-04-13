@@ -11,6 +11,12 @@ const MOBILE_HEIGHT = 200;
 class HotelScene extends Phaser.Scene {
   constructor() {
     super({ key: 'HotelScene' });
+    // modify to accept room assignments as props
+    this.roomAssignments = [];
+  }
+
+  init(data) {
+    this.roomAssignments = data.roomAssignments || [];
   }
 
   create() {
@@ -30,6 +36,7 @@ class HotelScene extends Phaser.Scene {
       for (let col = 0; col < MAP_WIDTH; col++) {
         if (roomCount >= TOTAL_ROOMS) break;
         
+        const roomNumber = roomCount + 1;
         const x = startX + (col * TILE_SIZE);
         const y = startY + (row * TILE_SIZE);
         
@@ -39,14 +46,31 @@ class HotelScene extends Phaser.Scene {
         
         // room number in white
         this.add.text(
-          x + TILE_SIZE/2, 
-          y + TILE_SIZE/2, 
-          (roomCount + 1).toString(),
-          { 
-            color: '#ffffff',
-            fontSize: '16px'
+            x + TILE_SIZE/2, 
+            y + TILE_SIZE/2 - 10, // moved up to make room for ghost symbol
+            roomNumber.toString(),
+            { 
+              color: '#ffffff',
+              fontSize: '16px'
+            }
+          ).setOrigin(0.5);
+
+          // check if there's a ghost in this room
+        const ghostInRoom = this.roomAssignments.find(
+            ghost => ghost.assigned === roomNumber
+          );
+  
+          if (ghostInRoom) {
+            // add ghost symbol (👻) below the room number
+            this.add.text(
+              x + TILE_SIZE/2,
+              y + TILE_SIZE/2 + 10,
+              '👻',
+              {
+                fontSize: '16px'
+              }
+            ).setOrigin(0.5);
           }
-        ).setOrigin(0.5);
         
         roomCount++;
       }
@@ -54,7 +78,9 @@ class HotelScene extends Phaser.Scene {
   }
 }
 
-const HotelMap = () => {
+// destructure roomAssignments from props
+// bc I had undefined error
+const HotelMap = ({ roomAssignments = [] }) => {
   const gameRef = useRef(null);
 
   useEffect(() => {
@@ -78,13 +104,16 @@ const HotelMap = () => {
 
     gameRef.current = new Phaser.Game(config);
 
+    // pass room assignments to the scene
+    gameRef.current.scene.start('HotelScene', { roomAssignments });
+
     return () => {
       if (gameRef.current) {
         gameRef.current.destroy(true);
         gameRef.current = null;
       }
     };
-  }, []);
+  }, [roomAssignments]); //recreate the scene when room assignments change
 
   return (
     <div id="hotel-map" style={{ 

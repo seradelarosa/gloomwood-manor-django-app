@@ -43,11 +43,13 @@ GET /api/profit/ – current hotel profit
 ---------------------
 # Integrate with React Frontend
 COMPLETE Use Phase.js for rendering the hotel floor plan
-- Make API calls to Django backend to create, update or fetch room/guest/ghost data
-- Make forms for guest registration and room assignment
-- Make buttons for "Accept Request" and "Assign to Room", etc.
-- Phaser map tiles update in real time
+COMPLETE Make API calls to Django backend to create, update or fetch room/guest/ghost data
+COMPLETE Make forms for guest registration and room assignment
+COMPLETE Make buttons for "Accept Request" and "Assign to Room", etc.
 
+# Phaser 
+Pass room assignments to the HotelMap component and update the tiles to show ghost symbols (Make images later)
+Modify hotel map to accept room assignments as props
 
 ---------------------
 # Timers and Automation

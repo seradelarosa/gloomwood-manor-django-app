@@ -25,7 +25,7 @@ const Home = ({ guests, rooms }) => {
   return (
     <div>
 
-      <HotelMap />
+      <HotelMap roomAssignments={roomAssignments} />
 
       <h2>Room Assignments</h2>
       {rooms.length === 0 ? (
