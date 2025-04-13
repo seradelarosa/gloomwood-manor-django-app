@@ -47,9 +47,12 @@ const Home = () => {
     fetchGuests();
   }, []);
 
+  // Combine ghosts and guests for the map
+  const roomAssignments = [...ghosts, ...guests];
+
   return (
     <div>
-      <HotelMap roomAssignments={ghosts} />
+      <HotelMap roomAssignments={roomAssignments} />
 
       <h2>Room Assignments</h2>
       {rooms.length === 0 ? (

@@ -11,7 +11,6 @@ const MOBILE_HEIGHT = 200;
 class HotelScene extends Phaser.Scene {
   constructor() {
     super({ key: 'HotelScene' });
-    // modify to accept room assignments as props
     this.roomAssignments = [];
   }
 
@@ -47,7 +46,7 @@ class HotelScene extends Phaser.Scene {
         // room number in white
         this.add.text(
             x + TILE_SIZE/2, 
-            y + TILE_SIZE/2 - 10, // moved up to make room for ghost symbol
+            y + TILE_SIZE/2 - 10,
             roomNumber.toString(),
             { 
               color: '#ffffff',
@@ -55,16 +54,33 @@ class HotelScene extends Phaser.Scene {
             }
           ).setOrigin(0.5);
 
-          // check if there's a ghost in this room
-        const ghostInRoom = this.roomAssignments.find(
-            ghost => ghost.assigned === roomNumber
+          // check if there's a guest in the room (has full_name property)
+          const guestInRoom = this.roomAssignments.find(
+            assignment => assignment.assigned === roomNumber && assignment.full_name
           );
-  
-          if (ghostInRoom) {
-            // add ghost symbol (👻) below the room number
+
+          // check if there's a ghost in this room (has ghost_type property)
+          const ghostInRoom = this.roomAssignments.find(
+            assignment => assignment.assigned === roomNumber && assignment.ghost_type
+          );
+
+          if (guestInRoom) {
+            // add guest symbol (👤) below the room number
             this.add.text(
               x + TILE_SIZE/2,
               y + TILE_SIZE/2 + 10,
+              '👤',
+              {
+                fontSize: '16px'
+              }
+            ).setOrigin(0.5);
+          }
+
+          if (ghostInRoom) {
+            // add ghost symbol (👻) below the guest symbol or room number
+            this.add.text(
+              x + TILE_SIZE/2,
+              y + TILE_SIZE/2 + (guestInRoom ? 30 : 10),
               '👻',
               {
                 fontSize: '16px'
@@ -78,8 +94,6 @@ class HotelScene extends Phaser.Scene {
   }
 }
 
-// destructure roomAssignments from props
-// bc I had undefined error
 const HotelMap = ({ roomAssignments = [] }) => {
   const gameRef = useRef(null);
 
@@ -98,7 +112,7 @@ const HotelMap = ({ roomAssignments = [] }) => {
         autoCenter: Phaser.Scale.CENTER_BOTH
       },
       audio: {
-        noAudio: true // disable audio
+        noAudio: true
       }
     };
 
@@ -113,7 +127,7 @@ const HotelMap = ({ roomAssignments = [] }) => {
         gameRef.current = null;
       }
     };
-  }, [roomAssignments]); //recreate the scene when room assignments change
+  }, [roomAssignments]);
 
   return (
     <div id="hotel-map" style={{ 
