@@ -61,12 +61,12 @@ const Home = () => {
         <div>
           {rooms.map((room) => {
             // find the ghost assigned to this room
-            const ghost = ghosts.find((ghost) => ghost.assigned === room.id);
+            const ghost = ghosts.find((ghost) => ghost.assigned === room.room_number);
             // find the guest assigned to this room
-            const guest = guests.find((guest) => guest.assigned === room.id);
+            const guest = guests.find((guest) => guest.assigned === room.room_number);
 
             return (
-              <div key={room.id}>
+              <div key={room.room_number}>
                 <h3>Room {room.room_number}</h3>
                 <p>
                   Guest: {guest ? guest.full_name : 'No guest assigned'}
