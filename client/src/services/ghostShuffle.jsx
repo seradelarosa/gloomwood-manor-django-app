@@ -64,7 +64,6 @@ export const GhostProvider = ({ children }) => {
       }
       const updatedGhosts = await finalResponse.json();
       setGhosts(updatedGhosts);
-      console.log("Updated ghosts after assignments:", updatedGhosts);
       
     } catch (error) {
       console.error('Error updating ghost assignments:', error);
@@ -128,6 +127,15 @@ export const GhostProvider = ({ children }) => {
   // get ghosts when component mounts
   useEffect(() => {
     fetchGhosts();
+    
+    // Set up timer to shuffle every 2 minutes
+    const timer = setInterval(() => {
+      console.log("2 minutes passed, shuffling ghosts...");
+      fetchGhosts();
+    }, 120000); // 120000 ms = 2 minutes
+    
+    // Clean up timer on unmount
+    return () => clearInterval(timer);
   }, []);
 
   return (
