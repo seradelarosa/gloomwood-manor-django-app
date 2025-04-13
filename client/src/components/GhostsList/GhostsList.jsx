@@ -1,54 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { useGhosts } from '../../services/ghostShuffle';
 
 const GhostsList = () => {
-    const { ghosts, lastShuffleTime } = useGhosts();
-    const [rooms, setRooms] = useState({});
+  const [ghosts, setGhosts] = useState([]);
 
-    // fetch room details for assigned ghosts
-    useEffect(() => {
-        const fetchRooms = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/api/rooms/');
-                const roomsData = await response.json();
-                // Create a map of room IDs to room numbers
-                const roomMap = roomsData.reduce((acc, room) => {
-                    acc[room.id] = room.room_number;
-                    return acc;
-                }, {});
-                setRooms(roomMap);
-            } catch (error) {
-                console.error('Error fetching rooms:', error);
-            }
-        };
-
-        fetchRooms();
-    }, []);
-
-    // Format the last shuffle time
-    const formatLastShuffle = (timestamp) => {
-        const date = new Date(timestamp);
-        return date.toLocaleTimeString();
+  // fetch ghosts
+  useEffect(() => {
+    const fetchGhosts = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/ghosts/');
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch ghosts: ${response.status} ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log('Fetched ghosts:', data);
+        setGhosts(data);
+      } catch (err) {
+        console.error('Error fetching ghosts:', err);
+      }
     };
 
-    console.log('Current ghosts:', ghosts);
-    console.log('Current rooms state:', rooms);
+    fetchGhosts();
+  }, []);
 
-    return (
-        <div className="ghosts-list-container">
-            <h2>Ghosts List</h2>
-            <p>Last shuffled at: {formatLastShuffle(lastShuffleTime)}</p>
-            <div className="ghosts-grid">
-                {ghosts.map((ghost) => (
-                    <div key={ghost.id} className="ghost-card">
-                        <h3>{ghost.name}</h3>
-                        <p>Type: {ghost.ghost_type}</p>
-                        <p>Room: {ghost.assigned && rooms[ghost.assigned] ? `Room ${rooms[ghost.assigned]}` : 'Unassigned'}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Ghosts</h1>
+      
+      {ghosts.length === 0 ? (
+        <p>No ghosts found.</p>
+      ) : (
+        <ul>
+          {ghosts.map((ghost) => (
+            <li key={ghost.id}>
+              <h2>{ghost.name}</h2>
+              <p>Type: {ghost.ghost_type}</p>
+              <p>Assigned Room: {ghost.assigned ? `Room ${ghost.assigned}` : 'Unassigned'}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
 export default GhostsList;

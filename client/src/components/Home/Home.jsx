@@ -2,46 +2,71 @@ import React, { useState, useEffect } from 'react';
 import { useGhosts } from '../../services/ghostShuffle';
 import HotelMap from '../HotelMap/HotelMap';
 
-const Home = ({ guests, rooms }) => {
-  const { ghosts, lastShuffleTime } = useGhosts();
-  const [roomAssignments, setRoomAssignments] = useState([]);
+const Home = () => {
+  const [rooms, setRooms] = useState([]);
+  const [guests, setGuests] = useState([]);
+  const { ghosts } = useGhosts();
 
-  // get ghost assignments whenever ghosts change or shuffle occurs
+  // fetch rooms from the backend
   useEffect(() => {
-    const fetchGhostAssignments = async () => {
+    const fetchRooms = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/ghosts/');
-        const ghostData = await response.json();
-        setRoomAssignments(ghostData);
-      } catch (error) {
-        console.error('Error fetching ghost assignments:', error);
+        const response = await fetch('http://localhost:8000/api/rooms/');
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch rooms: ${response.status} ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log('Fetched rooms:', data);
+        setRooms(data);
+      } catch (err) {
+        console.error('Error fetching rooms:', err);
       }
     };
 
-    fetchGhostAssignments();
-    console.log('Ghost shuffle occurred at:', new Date(lastShuffleTime).toLocaleTimeString());
-  }, [lastShuffleTime]); // re-fetch when ghost shuffle occurs
+    fetchRooms();
+  }, []);
+
+  // fetch guests from the backend
+  useEffect(() => {
+    const fetchGuests = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/guests/');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch guests: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        console.log('Fetched guests:', data);
+        setGuests(data);
+      } catch (err) {
+        console.error('Error fetching guests:', err);
+      }
+    };
+
+    fetchGuests();
+  }, []);
 
   return (
     <div>
-
-      <HotelMap roomAssignments={roomAssignments} />
+      <HotelMap roomAssignments={ghosts} />
 
       <h2>Room Assignments</h2>
       {rooms.length === 0 ? (
         <p>No rooms available.</p>
       ) : (
-        <div className="room-grid">
+        <div>
           {rooms.map((room) => {
-            // find the guest and ghost for this room
+            // find the ghost assigned to this room
+            const ghost = ghosts.find((ghost) => ghost.assigned === room.id);
+            // find the guest assigned to this room
             const guest = guests.find((guest) => guest.assigned === room.id);
-            const ghost = roomAssignments.find((ghost) => ghost.assigned === room.id);
 
             return (
-              <div key={room.id} className="room-card">
+              <div key={room.id}>
                 <h3>Room {room.room_number}</h3>
                 <p>
-                  Guest: {guest ? `${guest.full_name}` : 'No guest assigned'}
+                  Guest: {guest ? guest.full_name : 'No guest assigned'}
                 </p>
                 <p>
                   Ghost: {ghost ? `${ghost.name} (${ghost.ghost_type})` : 'No ghost assigned'}
