@@ -1,13 +1,20 @@
 import { useEffect, useRef } from "react";
 import Phaser from "phaser";
 import room1Image from '../../assets/img/room1.png';
+import room2Image from '../../assets/img/room2.png';
+import room3Image from '../../assets/img/room3.png';
+import room4Image from '../../assets/img/room4.png';
+import room5Image from '../../assets/img/room5.png';
+import room6Image from '../../assets/img/room6.png';
+import room7Image from '../../assets/img/room7.png';
+import groundsImage from '../../assets/img/grounds.png';
 
 const TILE_SIZE = 140;
 const MAP_WIDTH = 2;
 const MAP_HEIGHT = 4;
 const TOTAL_ROOMS = 7;
 const MOBILE_WIDTH = 480;
-const MOBILE_HEIGHT = 700;
+const MOBILE_HEIGHT = 750;
 
 class HotelScene extends Phaser.Scene {
   constructor() {
@@ -18,6 +25,13 @@ class HotelScene extends Phaser.Scene {
   // images
   preload() {
     this.load.image('tileBg1', room1Image);
+    this.load.image('tileBg2', room2Image);
+    this.load.image('tileBg3', room3Image);
+    this.load.image('tileBg4', room4Image);
+    this.load.image('tileBg5', room5Image);
+    this.load.image('tileBg6', room6Image);
+    this.load.image('tileBg7', room7Image);
+    this.load.image('groundsImage', groundsImage);
   }
 
   init(data) {
@@ -25,13 +39,18 @@ class HotelScene extends Phaser.Scene {
   }
 
   create() {
+    // Add background image first, before any other drawing
+    this.add.image(MOBILE_WIDTH/2, MOBILE_HEIGHT/2, 'groundsImage')
+      .setDisplaySize(MOBILE_WIDTH, MOBILE_HEIGHT)
+      .setOrigin(0.5);
+
     const graphics = this.add.graphics();
 
     // calculate starting position (to center the grid)
     const totalWidth = MAP_WIDTH * TILE_SIZE;
     const totalHeight = MAP_HEIGHT * TILE_SIZE;
     const startX = 50;
-    const startY = (MOBILE_HEIGHT - totalHeight) / 2;
+    const startY = 60;
 
     // draw the grid
     graphics.lineStyle(2, 0x666666);
@@ -59,18 +78,27 @@ class HotelScene extends Phaser.Scene {
 
         if (roomNumber === 2) {
           tileWidth = TILE_SIZE + 70;
+          this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg2')
+                .setDisplaySize(tileWidth, tileHeight)
+                .setOrigin(0.5);
         }
 
         if (roomNumber === 3) {
           y += TILE_GAP2;
           tileWidth = TILE_SIZE;
           tileHeight = TILE_SIZE + 20;
+          this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg3')
+                .setDisplaySize(tileWidth, tileHeight)
+                .setOrigin(0.5);
         }
 
         // vertical gap *after* room 4
         if (roomNumber === 4) {
           x += TILE_GAP;
           tileHeight = TILE_SIZE + 70;
+          this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg4')
+                .setDisplaySize(tileWidth, tileHeight)
+                .setOrigin(0.5);
         }
 
         if (roomNumber === 5) {
@@ -82,12 +110,25 @@ class HotelScene extends Phaser.Scene {
           y += VERTICAL_OFFSET;
         }
 
+        // Add room 5's background image after the position is finalized
+        if (roomNumber === 5) {
+          this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg5')
+                .setDisplaySize(tileWidth, tileHeight)
+                .setOrigin(0.5);
+        }
+
         if (roomNumber === 6) {
           x += TILE_GAP;
+          this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg6')
+                .setDisplaySize(tileWidth, tileHeight)
+                .setOrigin(0.5);
         }
 
         if (roomNumber === 7) {
           y += VERTICAL_OFFSET - 20;
+          this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg7')
+                .setDisplaySize(tileWidth, tileHeight)
+                .setOrigin(0.5);
         }
 
         // room tile with darker background
