@@ -9,6 +9,22 @@ import room6Image from '../../assets/img/room6.png';
 import room7Image from '../../assets/img/room7.png';
 import groundsImage from '../../assets/img/grounds.png';
 
+import fireWraith from '../../assets/img/ghosts/Ashes.png';
+import flicker from '../../assets/img/ghosts/Flicker.png';
+import hollowWatcher from '../../assets/img/ghosts/hollow_watcher.png';
+import malgrith from '../../assets/img/ghosts/Malgrith.png';
+import mourner from '../../assets/img/ghosts/The_mourner.png';
+import mrGrin from '../../assets/img/ghosts/Mr_Grin.png';
+import winnie from '../../assets/img/ghosts/whispering_winnie.png';
+
+import claraMoon from '../../assets/img/guests/Clara_Moon.png';
+import desmondKaye from '../../assets/img/guests/Desmond_Kaye.png';
+import elenaFrost from '../../assets/img/guests/Elena_Frost.png';
+import julianAsh from '../../assets/img/guests/Julian_Ash.png';
+import lunaSterling from '../../assets/img/guests/Luna_Sterling.png';
+import miraForest from '../../assets/img/guests/Mira_Forest.png';
+import theoBlackwell from '../../assets/img/guests/Theo_Blackwell.png';
+
 const TILE_SIZE = 140;
 const MAP_WIDTH = 2;
 const MAP_HEIGHT = 4;
@@ -22,8 +38,9 @@ class HotelScene extends Phaser.Scene {
     this.roomAssignments = [];
   }
 
-  // images
+  
   preload() {
+    // background images
     this.load.image('tileBg1', room1Image);
     this.load.image('tileBg2', room2Image);
     this.load.image('tileBg3', room3Image);
@@ -32,6 +49,24 @@ class HotelScene extends Phaser.Scene {
     this.load.image('tileBg6', room6Image);
     this.load.image('tileBg7', room7Image);
     this.load.image('groundsImage', groundsImage);
+    
+    // ghost images
+    this.load.image('fireWraith', fireWraith);
+    this.load.image('flicker', flicker);
+    this.load.image('hollowWatcher', hollowWatcher);
+    this.load.image('malgrith', malgrith);
+    this.load.image('mourner', mourner);
+    this.load.image('mrGrin', mrGrin);
+    this.load.image('winnie', winnie);
+    
+    // guest images
+    this.load.image('claraMoon', claraMoon);
+    this.load.image('desmondKaye', desmondKaye);
+    this.load.image('elenaFrost', elenaFrost);
+    this.load.image('julianAsh', julianAsh);
+    this.load.image('lunaSterling', lunaSterling);
+    this.load.image('miraForest', miraForest);
+    this.load.image('theoBlackwell', theoBlackwell);
   }
 
   init(data) {
@@ -39,12 +74,13 @@ class HotelScene extends Phaser.Scene {
   }
 
   create() {
-    // Add background image first, before any other drawing
+    // set background image first
     this.add.image(MOBILE_WIDTH/2, MOBILE_HEIGHT/2, 'groundsImage')
       .setDisplaySize(MOBILE_WIDTH, MOBILE_HEIGHT)
       .setOrigin(0.5);
 
     const graphics = this.add.graphics();
+    graphics.setDepth(1); // set graphics to appear above background
 
     // calculate starting position (to center the grid)
     const totalWidth = MAP_WIDTH * TILE_SIZE;
@@ -62,6 +98,7 @@ class HotelScene extends Phaser.Scene {
     let tileWidth = TILE_SIZE;
     let tileHeight = TILE_SIZE;
 
+    // First, draw all room backgrounds
     for (let row = 0; row < MAP_HEIGHT; row++) {
       for (let col = 0; col < MAP_WIDTH; col++) {
         if (roomCount >= TOTAL_ROOMS) break;
@@ -73,14 +110,16 @@ class HotelScene extends Phaser.Scene {
         if (roomNumber === 1) {
             this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg1')
                 .setDisplaySize(tileWidth, tileHeight)
-                .setOrigin(0.5);
+                .setOrigin(0.5)
+                .setDepth(0); // lowest depth
         }
 
         if (roomNumber === 2) {
           tileWidth = TILE_SIZE + 70;
           this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg2')
                 .setDisplaySize(tileWidth, tileHeight)
-                .setOrigin(0.5);
+                .setOrigin(0.5)
+                .setDepth(0); 
         }
 
         if (roomNumber === 3) {
@@ -89,16 +128,18 @@ class HotelScene extends Phaser.Scene {
           tileHeight = TILE_SIZE + 20;
           this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg3')
                 .setDisplaySize(tileWidth, tileHeight)
-                .setOrigin(0.5);
+                .setOrigin(0.5)
+                .setDepth(0); 
         }
 
-        // vertical gap *after* room 4
+        // vertical gap after room 4
         if (roomNumber === 4) {
           x += TILE_GAP;
           tileHeight = TILE_SIZE + 70;
           this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg4')
                 .setDisplaySize(tileWidth, tileHeight)
-                .setOrigin(0.5);
+                .setOrigin(0.5)
+                .setDepth(0);
         }
 
         if (roomNumber === 5) {
@@ -110,30 +151,81 @@ class HotelScene extends Phaser.Scene {
           y += VERTICAL_OFFSET;
         }
 
-        // Add room 5's background image after the position is finalized
         if (roomNumber === 5) {
           this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg5')
                 .setDisplaySize(tileWidth, tileHeight)
-                .setOrigin(0.5);
+                .setOrigin(0.5)
+                .setDepth(0);
         }
 
         if (roomNumber === 6) {
           x += TILE_GAP;
           this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg6')
                 .setDisplaySize(tileWidth, tileHeight)
-                .setOrigin(0.5);
+                .setOrigin(0.5)
+                .setDepth(0);
         }
 
         if (roomNumber === 7) {
           y += VERTICAL_OFFSET - 20;
           this.add.image(x + tileWidth/2, y + tileHeight/2, 'tileBg7')
                 .setDisplaySize(tileWidth, tileHeight)
-                .setOrigin(0.5);
+                .setOrigin(0.5)
+                .setDepth(0);
         }
 
-        // room tile with darker background
-        graphics.fillStyle(0x2c2c2c);
-        graphics.fillRect(x, y, tileWidth, tileHeight);
+        roomCount++;
+      }
+    }
+
+    // reset roomCount for the second pass
+    roomCount = 0;
+    
+    // Second pass: draw backgrounds, borders and occupants
+    for (let row = 0; row < MAP_HEIGHT; row++) {
+      for (let col = 0; col < MAP_WIDTH; col++) {
+        if (roomCount >= TOTAL_ROOMS) break;
+
+        const roomNumber = roomCount + 1;
+        let x = startX + col * TILE_SIZE;
+        let y = startY + row * TILE_SIZE;
+        let tileWidth = TILE_SIZE;
+        let tileHeight = TILE_SIZE;
+
+        // specific positioning for each room
+        if (roomNumber === 2) {
+          tileWidth = TILE_SIZE + 70;
+        }
+
+        if (roomNumber === 3) {
+          y += TILE_GAP2;
+          tileWidth = TILE_SIZE;
+          tileHeight = TILE_SIZE + 20;
+        }
+
+        if (roomNumber === 4) {
+          x += TILE_GAP;
+          tileHeight = TILE_SIZE + 70;
+        }
+
+        if (roomNumber === 5) {
+          tileHeight = TILE_SIZE;
+        }
+
+        if (roomNumber >= 5) {
+          y += VERTICAL_OFFSET;
+        }
+
+        if (roomNumber === 6) {
+          x += TILE_GAP;
+        }
+
+        if (roomNumber === 7) {
+          y += VERTICAL_OFFSET - 20;
+        }
+        
+        // add a border around rooms
+        graphics.lineStyle(3, 0xffffff, 1); // white, 3px, opaque
         graphics.strokeRect(x, y, tileWidth, tileHeight);
 
         // room number in white
@@ -142,7 +234,8 @@ class HotelScene extends Phaser.Scene {
             color: "#ffffff",
             fontSize: "16px",
           })
-          .setOrigin(0, 0);
+          .setOrigin(0, 0)
+          .setDepth(2); // set text above borders
 
         const guestInRoom = this.roomAssignments.find(
           (assignment) =>
@@ -155,27 +248,54 @@ class HotelScene extends Phaser.Scene {
         );
 
         if (guestInRoom) {
-          this.add
-            .text(x + TILE_SIZE / 2, y + TILE_SIZE / 2 + 10, "👤", {
-              fontSize: "16px",
-            })
-            .setOrigin(0.5);
+          const guestSprite = this.add.sprite(
+            x + TILE_SIZE / 2 - 20,
+            y + TILE_SIZE / 2 - 20,
+            this.getGuestImageKey(guestInRoom.full_name)
+          );
+          guestSprite.setScale(1.3); // guest sizze
+          guestSprite.setDepth(3); // set guest above borders
         }
 
         if (ghostInRoom) {
-          this.add
-            .text(
-              x + TILE_SIZE / 2,
-              y + TILE_SIZE / 2 + (guestInRoom ? 30 : 10),
-              "👻",
-              { fontSize: "16px" }
-            )
-            .setOrigin(0.5);
+          const ghostSprite = this.add.sprite(
+            x + TILE_SIZE / 2 + 20,
+            y + TILE_SIZE / 2 + 20,
+            this.getGhostImageKey(ghostInRoom.ghost_type)
+          );
+          ghostSprite.setScale(1.2); // ghost size 
+          ghostSprite.setDepth(3); // set ghost above borders
         }
 
         roomCount++;
       }
     }
+  }
+
+  getGhostImageKey(ghostType) {
+    const ghostMap = {
+      'Clown Apparition': 'mrGrin',
+      'Child Spirit': 'winnie',
+      'Banshee': 'mourner',
+      'Fire Wraith': 'fireWraith',
+      'Demon': 'malgrith',
+      'Poltergeist': 'flicker',
+      'Shadow Entity': 'hollowWatcher'
+    };
+    return ghostMap[ghostType] || 'winnie'; // i wish i could delete this line without everything breaking??
+  }
+
+  getGuestImageKey(guestName) {
+    const guestMap = {
+      'Clara Moon': 'claraMoon',
+      'Desmond Kaye': 'desmondKaye',
+      'Elena Frost': 'elenaFrost',
+      'Julian Ash': 'julianAsh',
+      'Luna Sterling': 'lunaSterling',
+      'Mira Forest': 'miraForest',
+      'Theo Blackwell': 'theoBlackwell'
+    };
+    return guestMap[guestName] || 'claraMoon'; // this one too for some reason
   }
 }
 
