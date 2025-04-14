@@ -13,11 +13,15 @@ router.register(r'ghosts', GhostViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('', views.Home.as_view(), name='home'),
     # endpoints for guests
     path('api/guests/', GuestListView.as_view(), name='guest-list'),
     path('api/unregistered-guests/', UnregisteredGuestListView.as_view(), name='unregistered-guest-list'),
     # assign registered guest to room
     path('api/assign-guest-to-room/', views.assign_room_api, name='assign_guest_to_room'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('api/login/', views.LoginAPI.as_view(), name='login_api'),
+    path('api/get-csrf-token/', views.get_csrf_token, name='get_csrf_token'),
+    path('api/csrf/', views.get_csrf_token, name='csrf_token'),
 ]
 

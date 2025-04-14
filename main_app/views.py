@@ -1,18 +1,58 @@
 from django.shortcuts import render, get_object_or_404, redirect
-# Import HttpResponse to send text-based responses
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view  # Add this back
 from rest_framework import status
+from django.contrib.auth import authenticate, login
+from django.middleware.csrf import get_token
 from .models import Room, Guest, Ghost
 from .serializers import RoomSerializer, GuestSerializer, GhostSerializer
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
+
+def get_csrf_token(request):
+    return JsonResponse({'csrfToken': get_token(request)})
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class LoginAPI(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        
+        if not username or not password:
+            return Response({
+                'success': False,
+                'error': 'Please provide both username and password'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            return Response({
+                'success': True,
+                'user': {
+                    'username': user.username,
+                    'id': user.id,
+                }
+            })
+        else:
+            return Response({
+                'success': False,
+                'error': 'Invalid credentials'
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
 # Define the home view function
-def home(request):
-    # Send a simple HTML response
-    return HttpResponse('<h1>Hello</h1>')
+class Home(LoginView):
+    template_name = 'home.html'
+    success_url = reverse_lazy('guest-list') 
 
 class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
