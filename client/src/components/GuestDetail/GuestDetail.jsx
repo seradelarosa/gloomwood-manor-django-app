@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { startGuestTimer, clearGuestTimer, getRemainingTime } from '../../services/guestTimer';
 
 const GuestDetail = () => {
     const [guest, setGuest] = useState(null);
     const [rooms, setRooms] = useState([]);
     const [selectedRoom, setSelectedRoom] = useState('');
     const [currentRoom, setCurrentRoom] = useState(null);
+    const [countdown, setCountdown] = useState(null);
     const { id } = useParams();
     const navigate = useNavigate();
+    const countdownIntervalRef = useRef(null);
 
     // get guest details
     useEffect(() => {
@@ -22,6 +25,12 @@ const GuestDetail = () => {
                     const roomResponse = await fetch(`http://localhost:8000/api/rooms/${data.assigned}/`);
                     const roomData = await roomResponse.json();
                     setCurrentRoom(roomData);
+                    
+                    // check if there's an active timer for this guest
+                    const remainingTime = getRemainingTime(data.id);
+                    if (remainingTime !== null) {
+                        setCountdown(remainingTime);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching guest:', error);
@@ -29,7 +38,42 @@ const GuestDetail = () => {
         };
 
         fetchGuest();
+        
+        // when component unmounts..
+        return () => {
+            if (countdownIntervalRef.current) {
+                clearInterval(countdownIntervalRef.current);
+            }
+        };
     }, [id]);
+
+    // update countdown display
+    useEffect(() => {
+        if (guest && guest.assigned) {
+            // clear any existing interval
+            if (countdownIntervalRef.current) {
+                clearInterval(countdownIntervalRef.current);
+            }
+            
+            // set up a new interval to update the countdown display
+            countdownIntervalRef.current = setInterval(() => {
+                const remainingTime = getRemainingTime(guest.id);
+                if (remainingTime !== null) {
+                    setCountdown(remainingTime);
+                } else {
+                    // timer has ended, clear the interval
+                    clearInterval(countdownIntervalRef.current);
+                    setCountdown(null);
+                }
+            }, 100);
+            
+            return () => {
+                if (countdownIntervalRef.current) {
+                    clearInterval(countdownIntervalRef.current);
+                }
+            };
+        }
+    }, [guest]);
 
     // get available rooms
     useEffect(() => {
@@ -86,8 +130,28 @@ const GuestDetail = () => {
                 const roomResponse = await fetch(`http://localhost:8000/api/rooms/${updatedGuest.assigned}/`);
                 const roomData = await roomResponse.json();
                 setCurrentRoom(roomData);
+                
+                // Log the guest and assigned room
+                console.log('Guest assigned to room:', {
+                    guest: updatedGuest.full_name,
+                    room: `Room ${roomData.room_number}`
+                });
+                
+                // Start the stay timer using the global timer service
+                startGuestTimer(updatedGuest, (guestId, updatedGuestData) => {
+                    // This callback will be called when the timer expires
+                    setGuest(updatedGuestData);
+                    setCurrentRoom(null);
+                });
+                
+                // set initial countdown
+                setCountdown(updatedGuest.stay_duration);
             } else {
                 setCurrentRoom(null);
+                
+                // clear timer if guest is unassigned
+                clearGuestTimer(updatedGuest.id);
+                setCountdown(null);
             }
             
         } catch (error) {
@@ -109,6 +173,9 @@ const GuestDetail = () => {
                 <p>Stay Duration: {guest.stay_duration} nights</p>
                 <p>Preferences: {guest.preferences || 'None'}</p>
                 <p>Current Room: {currentRoom ? `Room ${currentRoom.room_number}` : 'Not assigned'}</p>
+                {countdown !== null && (
+                    <p>Time remaining: {countdown} seconds</p>
+                )}
             </div>
 
             <div>

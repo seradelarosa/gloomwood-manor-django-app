@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Phaser from "phaser";
 import room1Image from '../../assets/img/room1.png';
 import room2Image from '../../assets/img/room2.png';
@@ -24,6 +24,7 @@ import julianAsh from '../../assets/img/guests/Julian_Ash.png';
 import lunaSterling from '../../assets/img/guests/Luna_Sterling.png';
 import miraForest from '../../assets/img/guests/Mira_Forest.png';
 import theoBlackwell from '../../assets/img/guests/Theo_Blackwell.png';
+import eventEmitter from '../../services/eventEmitter';
 
 const TILE_SIZE = 140;
 const MAP_WIDTH = 2;
@@ -301,6 +302,32 @@ class HotelScene extends Phaser.Scene {
 
 const HotelMap = ({ roomAssignments = [] }) => {
   const gameRef = useRef(null);
+  const [currentAssignments, setCurrentAssignments] = useState(roomAssignments);
+
+  // update current assignments when roomAssignments prop changes
+  useEffect(() => {
+    setCurrentAssignments(roomAssignments);
+  }, [roomAssignments]);
+
+  // listen for guest checkout events...
+  useEffect(() => {
+    const unsubscribe = eventEmitter.on('guestCheckedOut', (data) => {
+      console.log('HotelMap: Guest checked out event received:', data);
+      
+      // Update the current assignments to reflect the guest checkout
+      setCurrentAssignments(prevAssignments => {
+        // Filter out the guest that checked out
+        return prevAssignments.filter(assignment => 
+          !(assignment.id === data.guestId && !assignment.ghost_type)
+        );
+      });
+    });
+
+    // unsubscribe when component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (gameRef.current) return;
@@ -324,7 +351,7 @@ const HotelMap = ({ roomAssignments = [] }) => {
     gameRef.current = new Phaser.Game(config);
 
     // pass room assignments to the scene
-    gameRef.current.scene.start("HotelScene", { roomAssignments });
+    gameRef.current.scene.start("HotelScene", { roomAssignments: currentAssignments });
 
     return () => {
       if (gameRef.current) {
@@ -332,7 +359,14 @@ const HotelMap = ({ roomAssignments = [] }) => {
         gameRef.current = null;
       }
     };
-  }, [roomAssignments]);
+  }, [currentAssignments]);
+
+  // Restart scene when assignments change
+  useEffect(() => {
+    if (gameRef.current) {
+      gameRef.current.scene.start("HotelScene", { roomAssignments: currentAssignments });
+    }
+  }, [currentAssignments]);
 
   return (
     <div
