@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { startGuestTimer, clearGuestTimer, getRemainingTime } from '../../services/guestTimer';
+import './GuestDetail.css';
 
 const GuestDetail = () => {
     const [guest, setGuest] = useState(null);
@@ -164,27 +165,31 @@ const GuestDetail = () => {
     }
 
     return (
-        <div>
-            <button onClick={() => navigate('/guests-list')}>Back to Guests</button>
+        <div className="guest-detail-container">
+            <button 
+                onClick={() => navigate('/guests-list')}
+                className="back-button"
+            >
+                Back to Guests
+            </button>
             
-            <h2>Guest Details</h2>
-            <div>
+            <h2 className="guest-detail-title">Guest Details</h2>
+            
+            <div className="guest-info-card">
                 <h3>{guest.full_name}</h3>
-                <p>Stay Duration: {guest.stay_duration} nights</p>
+                <p>Stay Duration: {guest.stay_duration} seconds</p>
                 <p>Preferences: {guest.preferences || 'None'}</p>
                 <p>Current Room: {currentRoom ? `Room ${currentRoom.room_number}` : 'Not assigned'}</p>
-                {countdown !== null && (
-                    <p>Time remaining: {countdown} seconds</p>
-                )}
             </div>
 
-            <div>
+            <div className="room-assignment-card">
                 <h3>Assign Room</h3>
-                <form onSubmit={handleAssignRoom}>
+                <form onSubmit={handleAssignRoom} className="room-form">
                     <select 
                         value={selectedRoom} 
                         onChange={(e) => setSelectedRoom(e.target.value)}
                         required
+                        className="room-select"
                     >
                         <option value="">Select a room...</option>
                         {rooms.map((room) => (
@@ -193,7 +198,9 @@ const GuestDetail = () => {
                             </option>
                         ))}
                     </select>
-                    <button type="submit">Assign Room</button>
+                    <button type="submit" className="assign-button">
+                        Assign Room
+                    </button>
                 </form>
             </div>
         </div>

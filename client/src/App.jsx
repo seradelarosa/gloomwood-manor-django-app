@@ -8,20 +8,23 @@ import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import GuestDetail from './components/GuestDetail/GuestDetail';
 import Navbar from './components/Navbar/Navbar';
 import { Link } from 'react-router-dom';
+import './App.css';
 
 const App = () => {
   return (
-    <>
+    <div className="app-container">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />}/>
-        <Route path="/requests-list" element={<RequestsList />} />
-        <Route path="/register-guest" element={<RegistrationForm />} />
-        <Route path="/guests-list" element={<GuestsList />} />
-        <Route path="/guests/:id" element={<GuestDetail />} />
-        <Route path="/ghosts-list" element={<GhostsList />} />
-      </Routes>
-    </>
+      <div className="content-container">
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/requests-list" element={<RequestsList />} />
+          <Route path="/register-guest" element={<RegistrationForm />} />
+          <Route path="/guests-list" element={<GuestsList />} />
+          <Route path="/guests/:id" element={<GuestDetail />} />
+          <Route path="/ghosts-list" element={<GhostsList />} />
+        </Routes>
+      </div>
+    </div>
   );
 }
 

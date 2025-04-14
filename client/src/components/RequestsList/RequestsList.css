@@ -1,0 +1,54 @@
+.requests-container {
+    padding: 20px;
+}
+
+.requests-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.no-requests {
+    text-align: center;
+}
+
+.request-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: rgb(38, 38, 38);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.request-card h3 {
+    margin: 0 0 10px 0;
+}
+
+.request-card p {
+    margin: 0 0 10px 0;
+}
+
+.request-card p:last-of-type {
+    margin: 0 0 15px 0;
+}
+
+.register-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.register-button:hover {
+    background-color: #0056b3;
+} 

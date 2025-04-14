@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import './RegistrationForm.css';
 
 const RegistrationForm = () => {
     const navigate = useNavigate();
@@ -38,10 +39,10 @@ const RegistrationForm = () => {
     };
 
     return (
-        <div>
-            <h2>Register Guest</h2>
-            <form onSubmit={handleRegister}>
-                <div>
+        <div className="registration-container">
+            <h2 className="registration-title">Register Guest</h2>
+            <form onSubmit={handleRegister} className="registration-form">
+                <div className="form-group">
                     <label>Full Name:</label>
                     <input 
                         type="text" 
@@ -49,24 +50,35 @@ const RegistrationForm = () => {
                         readOnly
                     />
                 </div>
-                <div>
-                    <label>Stay Duration (nights):</label>
+                <div className="form-group">
+                    <label>Stay Duration (seconds):</label>
                     <input 
                         type="number" 
                         value={guest.stay_duration}
                         readOnly
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>Preferences:</label>
                     <textarea 
                         value={guest.preferences || ''}
                         readOnly
                     />
                 </div>
-                <div>
-                    <button type="button" onClick={() => navigate('/requests-list')}>Cancel</button>
-                    <button type="submit">Confirm Registration</button>
+                <div className="button-group">
+                    <button 
+                        type="button" 
+                        onClick={() => navigate('/requests-list')}
+                        className="cancel-button"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        type="submit"
+                        className="submit-button"
+                    >
+                        Confirm Registration
+                    </button>
                 </div>
             </form>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import './GuestsList.css';
 
 const GuestsList = () => {
   const [registeredGuests, setRegisteredGuests] = useState([]);
@@ -27,17 +28,17 @@ const GuestsList = () => {
   };
 
   return (
-    <div>
-      <h2>Registered Guests</h2>
+    <div className="guests-container">
+      <h2 className="guests-title">Registered Guests</h2>
       {registeredGuests.length === 0 ? (
-        <p>No registered guests found.</p>
+        <p className="no-guests">No registered guests found.</p>
       ) : (
-        <div>
+        <div className="guests-list">
           {registeredGuests.map((guest) => (
             <div 
               key={guest.id} 
               onClick={() => handleGuestClick(guest.id)}
-              style={{ cursor: 'pointer' }}
+              className="guest-card"
             >
               <h3>{guest.full_name}</h3>
               <p>Room: {guest.assigned ? `Room ${guest.assigned}` : 'Not assigned'}</p>

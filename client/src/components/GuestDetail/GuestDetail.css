@@ -1,0 +1,86 @@
+.guest-detail-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.back-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    background-color: #6c757d;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+.guest-detail-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.guest-info-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: rgb(38, 38, 38);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.guest-info-card h3 {
+    margin: 0 0 15px 0;
+}
+
+.guest-info-card p {
+    margin: 0 0 10px 0;
+}
+
+.room-assignment-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: rgb(38, 38, 38);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.room-assignment-card h3 {
+    margin: 0 0 15px 0;
+}
+
+.room-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.room-select {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: rgb(30, 30, 30);
+    color: white;
+}
+
+.assign-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.assign-button:hover {
+    background-color: #0056b3;
+} 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import './RequestsList.css';
 
 const RequestsList = () => {
     const [requests, setRequests] = useState([]);
@@ -28,26 +28,27 @@ const RequestsList = () => {
     };
 
     return (
-        <div>
-            <h2>Booking Requests</h2>
-            <div>
+        <div className="requests-container">
+            <h2 className="requests-title">Booking Requests</h2>
+            <div className="requests-list">
                 {requests.length === 0 ? (
-                    <p>No booking requests at this time.</p>
+                    <p className="no-requests">No booking requests at this time.</p>
                 ) : (
                     requests.map(request => (
-                        <div key={request.id}>
-                            <div>
-                                <h3>{request.full_name}</h3>
-                                <span>{request.stay_duration} nights</span>
-                            </div>
-                            <div>
-                                <p><strong>Preferences:</strong> {request.preferences || 'None specified'}</p>
-                            </div>
-                            <div>
-                                <button onClick={() => handleShowRegistrationForm(request)}>
-                                    Register Guest
-                                </button>
-                            </div>
+                        <div key={request.id} className="request-card">
+                            <h3>{request.full_name}</h3>
+                            <p>
+                                <strong>Stay Duration:</strong> {request.stay_duration} seconds
+                            </p>
+                            <p>
+                                <strong>Preferences:</strong> {request.preferences || 'None specified'}
+                            </p>
+                            <button 
+                                onClick={() => handleShowRegistrationForm(request)}
+                                className="register-button"
+                            >
+                                Register Guest
+                            </button>
                         </div>
                     ))
                 )}
