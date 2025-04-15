@@ -65,7 +65,7 @@ MIDDLEWARE = [
 ]
 
 # CORS Settings
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "gloomwood-manor.netlify.app",
 ]
