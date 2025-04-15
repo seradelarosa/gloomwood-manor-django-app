@@ -1,74 +1,101 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './RegistrationForm.css';
 
 const RegistrationForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const guest = location.state?.guest;
+    const existingGuest = location.state?.guest;
 
-    if (!guest) {
-        return <div>No guest data provided</div>;
-    }
+    const [fullName, setFullName] = useState(existingGuest?.full_name || '');
+    const [stayDuration, setStayDuration] = useState(existingGuest?.stay_duration || '');
+    const [preferences, setPreferences] = useState(existingGuest?.preferences || '');
+    const [error, setError] = useState('');
 
-    const handleRegister = async (e) => {
+    const isNewGuest = !existingGuest;
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        try {
-            const registerResponse = await fetch(`http://localhost:8000/api/guests/${guest.id}/`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    registered: true,
-                    full_name: guest.full_name,
-                    stay_duration: guest.stay_duration,
-                    preferences: guest.preferences
-                }),
-            });
+        setError('');
 
-            if (!registerResponse.ok) {
-                throw new Error('Failed to register guest');
+        if (!fullName || !stayDuration) {
+            setError('Full Name and Stay Duration are required.');
+            return;
+        }
+
+        try {
+            let response;
+            const guestData = {
+                full_name: fullName,
+                stay_duration: parseInt(stayDuration, 10),
+                preferences: preferences,
+                registered: true
+            };
+
+            if (isNewGuest) {
+                response = await fetch('http://localhost:8000/api/guests/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(guestData),
+                });
+            } else {
+                response = await fetch(`http://localhost:8000/api/guests/${existingGuest.id}/`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(guestData),
+                });
+            }
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || `Failed to ${isNewGuest ? 'add' : 'register'} guest`);
             }
 
             navigate('/guests-list');
         } catch (error) {
-            console.error('Error registering guest:', error);
+            console.error(`Error ${isNewGuest ? 'adding' : 'registering'} guest:`, error);
+            setError(error.message || `An error occurred.`);
         }
     };
 
     return (
         <div className="registration-container">
-            <h2 className="registration-title">Register Guest</h2>
-            <form onSubmit={handleRegister} className="registration-form">
+            <h2 className="registration-title">{isNewGuest ? 'Add New Guest' : 'Register Guest'}</h2>
+            <form onSubmit={handleSubmit} className="registration-form">
+                {error && <div className="error-message">{error}</div>}
                 <div className="form-group">
                     <label>Full Name:</label>
                     <input 
                         type="text" 
-                        value={guest.full_name}
-                        readOnly
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        readOnly={!isNewGuest}
+                        required
                     />
                 </div>
                 <div className="form-group">
                     <label>Stay Duration (seconds):</label>
                     <input 
                         type="number" 
-                        value={guest.stay_duration}
-                        readOnly
+                        value={stayDuration}
+                        onChange={(e) => setStayDuration(e.target.value)}
+                        readOnly={!isNewGuest}
+                        required
+                        min="1"
                     />
                 </div>
                 <div className="form-group">
                     <label>Preferences:</label>
                     <textarea 
-                        value={guest.preferences || ''}
-                        readOnly
+                        value={preferences}
+                        onChange={(e) => setPreferences(e.target.value)}
+                        readOnly={!isNewGuest}
                     />
                 </div>
                 <div className="button-group">
                     <button 
                         type="button" 
-                        onClick={() => navigate('/requests-list')}
+                        onClick={() => navigate(isNewGuest ? '/requests-list' : '/requests-list')}
                         className="cancel-button"
                     >
                         Cancel
@@ -77,7 +104,7 @@ const RegistrationForm = () => {
                         type="submit"
                         className="submit-button"
                     >
-                        Confirm Registration
+                        {isNewGuest ? 'Add Guest' : 'Confirm Registration'}
                     </button>
                 </div>
             </form>

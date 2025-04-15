@@ -27,9 +27,23 @@ const RequestsList = () => {
         navigate('/register-guest', { state: { guest } });
     };
 
+    // add functionality...
+    const handleAddGuest = () => {
+        navigate('/register-guest'); 
+    };
+
     return (
         <div className="requests-container">
-            <h2 className="requests-title">Booking Requests</h2>
+            <div className="requests-header">
+                <h2 className="requests-title">Booking Requests</h2>
+                {/* added button to add guests */}
+                <button 
+                    onClick={handleAddGuest}
+                    title="Add New Unregistered Guest"
+                >
+                    +
+                </button>
+            </div>
             <div className="requests-list">
                 {requests.length === 0 ? (
                     <p className="no-requests">No booking requests at this time.</p>
