@@ -67,14 +67,15 @@ MIDDLEWARE = [
 # CORS Settings
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "gloomwood-manor.netlify.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF Settings
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
+    "gloomwood-manor.netlify.app",
 ]
+
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = 'Lax'
