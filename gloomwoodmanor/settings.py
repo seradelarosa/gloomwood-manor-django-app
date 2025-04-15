@@ -20,8 +20,6 @@ import dj_database_url
 load_dotenv()
 
 
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,10 +31,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if not 'ON_HEROKU' in os.environ:
+if 'ON_HEROKU' in os.environ:
+    DEBUG = False
+else:
     DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+
+ALLOWED_HOSTS = ["*", "https://gloomwood-manor-6a698e38105d.herokuapp.com"]
 
 # Application definition
 
@@ -68,12 +69,14 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://gloomwood-manor-6a698e38105d.herokuapp.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF Settings
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
+    "https://gloomwood-manor-6a698e38105d.herokuapp.com",
 ]
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_HTTPONLY = False
@@ -93,7 +96,8 @@ ROOT_URLCONF = 'gloomwoodmanor.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'main_app/static')],
+        # 'DIRS': [os.path.join(BASE_DIR, 'client/dist')],
+        'DIRS': os.path.join(BASE_DIR, 'main_app/templates'),
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,7 +141,6 @@ else:
 # 'NAME': os.environ.get('DB_NAME', 'your_db_name'),
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -175,10 +178,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'client', 'dist'), 
+    os.path.join(BASE_DIR, 'client/dist/assets'),
 ]
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 LOGIN_REDIRECT_URL = '/'
 

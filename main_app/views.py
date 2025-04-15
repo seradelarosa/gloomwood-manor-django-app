@@ -50,9 +50,9 @@ class LoginAPI(APIView):
             }, status=status.HTTP_401_UNAUTHORIZED)
 
 # Define the home view function
-class Home(LoginView):
-    template_name = 'home.html'
-    success_url = reverse_lazy('guest-list') 
+# class Home(LoginView):
+#     template_name = 'client/src/components/Login/Login.jsx'
+#     success_url = reverse_lazy('guest-list') 
 
 class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
