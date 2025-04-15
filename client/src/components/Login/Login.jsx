@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 const Login = ({ setIsAuthenticated }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,13 +19,13 @@ const Login = ({ setIsAuthenticated }) => {
 
         try {
             // First, get a CSRF token
-            const csrfResponse = await fetch('http://localhost:8000/api/csrf/', {
+            const csrfResponse = await fetch(`${BASE_URL}/api/csrf/`, {
                 credentials: 'include',
             });
             const { csrfToken } = await csrfResponse.json();
 
             // Then make the login request
-            const response = await fetch('http://localhost:8000/api/login/', {
+            const response = await fetch(`${BASE_URL}/api/login/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
