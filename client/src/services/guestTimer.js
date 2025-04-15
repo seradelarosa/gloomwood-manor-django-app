@@ -1,7 +1,7 @@
 import axios from 'axios';
 import eventEmitter from './eventEmitter';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = 'https://gloomwood-manor-6a698e38105d.herokuapp.com';
 const timers = new Map();
 
 // timer for a guest's stay

@@ -7,7 +7,7 @@ const GhostsList = () => {
   useEffect(() => {
     const fetchGhosts = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/ghosts/');
+        const response = await fetch('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/ghosts/');
         
         if (!response.ok) {
           throw new Error(`Failed to fetch ghosts: ${response.status} ${response.statusText}`);

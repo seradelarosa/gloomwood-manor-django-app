@@ -10,7 +10,7 @@ const GuestsList = () => {
   useEffect(() => {
     const fetchRegisteredGuests = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/guests/');
+        const response = await fetch('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/guests/');
         const data = await response.json();
         // Filter for registered guests only
         const registeredGuests = data.filter(guest => guest.registered);

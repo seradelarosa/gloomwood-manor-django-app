@@ -20,7 +20,7 @@ export const GhostProvider = ({ children }) => {
 
     const fetchGhosts = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/ghosts/');
+            const response = await axios.get('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/ghosts/');
             setGhosts(response.data);
         } catch (error) {
             console.error('Error fetching ghosts:', error);
@@ -29,7 +29,7 @@ export const GhostProvider = ({ children }) => {
 
     const fetchRooms = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/rooms/');
+            const response = await axios.get('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/rooms/');
             setRooms(response.data);
         } catch (error) {
             console.error('Error fetching rooms:', error);
@@ -38,7 +38,7 @@ export const GhostProvider = ({ children }) => {
 
     const fetchGuests = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/guests/');
+            const response = await axios.get('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/guests/');
             setGuests(response.data);
         } catch (error) {
             console.error('Error fetching guests:', error);

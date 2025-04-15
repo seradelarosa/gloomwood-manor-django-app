@@ -17,13 +17,13 @@ const GuestDetail = () => {
     useEffect(() => {
         const fetchGuest = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/guests/${id}/`);
+                const response = await fetch(`https://gloomwood-manor-6a698e38105d.herokuapp.com/api/guests/${id}/`);
                 const data = await response.json();
                 setGuest(data);
                 
                 // if guest has an assigned room, get its details
                 if (data.assigned) {
-                    const roomResponse = await fetch(`http://localhost:8000/api/rooms/${data.assigned}/`);
+                    const roomResponse = await fetch(`https://gloomwood-manor-6a698e38105d.herokuapp.com/api/rooms/${data.assigned}/`);
                     const roomData = await roomResponse.json();
                     setCurrentRoom(roomData);
                     
@@ -80,7 +80,7 @@ const GuestDetail = () => {
     useEffect(() => {
         const fetchRooms = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/rooms/');
+                const response = await fetch('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/rooms/');
                 const data = await response.json();
                 
                 // create room IDs that have guests
@@ -108,7 +108,7 @@ const GuestDetail = () => {
         e.preventDefault();
         
         try {
-            const response = await fetch(`http://localhost:8000/api/guests/${id}/`, {
+            const response = await fetch(`https://gloomwood-manor-6a698e38105d.herokuapp.com/api/guests/${id}/`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ const GuestDetail = () => {
 
             // get new room details
             if (updatedGuest.assigned) {
-                const roomResponse = await fetch(`http://localhost:8000/api/rooms/${updatedGuest.assigned}/`);
+                const roomResponse = await fetch(`https://gloomwood-manor-6a698e38105d.herokuapp.com/api/rooms/${updatedGuest.assigned}/`);
                 const roomData = await roomResponse.json();
                 setCurrentRoom(roomData);
                 

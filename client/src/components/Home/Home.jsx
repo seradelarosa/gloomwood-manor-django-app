@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/rooms/');
+        const response = await fetch('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/rooms/');
         
         if (!response.ok) {
           throw new Error(`Failed to fetch rooms: ${response.status} ${response.statusText}`);
@@ -32,7 +32,7 @@ const Home = () => {
   // fetch guests from the backend
   const fetchGuests = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/guests/');
+      const response = await fetch('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/guests/');
       if (!response.ok) {
         throw new Error(`Failed to fetch guests: ${response.status} ${response.statusText}`);
       }

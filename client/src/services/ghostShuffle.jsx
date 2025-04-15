@@ -34,7 +34,7 @@ export const GhostProvider = ({ children }) => {
       // order assignments in sequential order
       for (const [roomId, ghost] of Object.entries(assignments)) {
         
-        const response = await fetch(`http://localhost:8000/api/ghosts/${ghost.id}/`, {
+        const response = await fetch(`https://gloomwood-manor-6a698e38105d.herokuapp.com/api/ghosts/${ghost.id}/`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const GhostProvider = ({ children }) => {
       console.log('Successfully completed all ghost assignments');
       
       // fetch the updated ghosts after all assignments are complete
-      const finalResponse = await fetch("http://localhost:8000/api/ghosts/");
+      const finalResponse = await fetch("https://gloomwood-manor-6a698e38105d.herokuapp.com/api/ghosts/");
       if (!finalResponse.ok) {
         throw new Error("Failed to fetch updated ghosts");
       }
@@ -104,7 +104,7 @@ export const GhostProvider = ({ children }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/ghosts/");
+      const response = await fetch("https://gloomwood-manor-6a698e38105d.herokuapp.com/api/ghosts/");
       if (!response.ok) {
         throw new Error("Failed to fetch ghosts");
       }

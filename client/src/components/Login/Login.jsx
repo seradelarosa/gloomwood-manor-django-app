@@ -14,13 +14,13 @@ const Login = ({ setIsAuthenticated }) => {
 
         try {
             // First, get a CSRF token
-            const csrfResponse = await fetch('http://localhost:8000/api/csrf/', {
+            const csrfResponse = await fetch('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/csrf/', {
                 credentials: 'include',
             });
             const { csrfToken } = await csrfResponse.json();
 
             // Then make the login request
-            const response = await fetch('http://localhost:8000/api/login/', {
+            const response = await fetch('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/login/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

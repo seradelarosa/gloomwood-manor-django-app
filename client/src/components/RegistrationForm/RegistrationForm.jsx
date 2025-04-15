@@ -33,13 +33,13 @@ const RegistrationForm = () => {
             };
 
             if (isNewGuest) {
-                response = await fetch('http://localhost:8000/api/guests/', {
+                response = await fetch('https://gloomwood-manor-6a698e38105d.herokuapp.com/api/guests/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(guestData),
                 });
             } else {
-                response = await fetch(`http://localhost:8000/api/guests/${existingGuest.id}/`, {
+                response = await fetch(`https://gloomwood-manor-6a698e38105d.herokuapp.com/api/guests/${existingGuest.id}/`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(guestData),
