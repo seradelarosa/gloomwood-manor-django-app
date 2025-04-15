@@ -25,6 +25,6 @@ urlpatterns = [
     path('api/get-csrf-token/', views.get_csrf_token, name='get_csrf_token'),
     path('api/csrf/', views.get_csrf_token, name='csrf_token'),
     # Catch-all route for React frontend
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
+    re_path(r'^.*$', TemplateView.as_view(template_name='dist/index.html')),
 ]
 
