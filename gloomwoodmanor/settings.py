@@ -123,7 +123,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DB_NAME', 'gloomwood_local'),
+            'NAME': os.environ.get('DB_NAME', 'gloomwoodmanor_local'),
             'USER': os.environ.get('DB_USER', 'seradmin'),
             'PASSWORD': os.environ.get('DB_PASSWORD', 'sera123456'),
             'HOST': os.environ.get('DB_HOST', 'localhost'),
