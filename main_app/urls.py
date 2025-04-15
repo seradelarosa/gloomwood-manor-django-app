@@ -15,8 +15,6 @@ router.register(r'rooms', RoomViewSet)
 router.register(r'guests', GuestViewSet)
 router.register(r'ghosts', GhostViewSet)
 
-BASE_DIR = settings.BASE_DIR
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
@@ -34,8 +32,7 @@ urlpatterns = [
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]
 
+# Serve static files in development
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(BASE_DIR, 'client/dist/assets'))
-
-urlpatterns += static(settings.STATIC_URL, document_root=os.path.join(settings.BASE_DIR, 'client/dist/assets'))
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
