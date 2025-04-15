@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   base: '/client/dist',
   build: {
-    outDir: '../client/dist', // output into client/dist
+    outDir: '../client/dist',
     emptyOutDir: true,
     rollupOptions: {
       input: resolve(__dirname, 'index.html'),
