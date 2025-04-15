@@ -4,9 +4,9 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/static/',
+  base: '/client/dist',
   build: {
-    outDir: 'dist',
+    outDir: '../client/dist', // output into client/dist
     emptyOutDir: true,
     rollupOptions: {
       input: resolve(__dirname, 'index.html'),

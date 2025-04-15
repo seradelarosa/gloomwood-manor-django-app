@@ -1,1 +1,1 @@
-web: npm run build && gunicorn gloomwoodmanor.wsgi
+web: gunicorn gloomwoodmanor.wsgi
